@@ -2,7 +2,7 @@ import { getConfig } from "./configManager";
 
 const config = getConfig();
 
-interface APIParams {
+export interface APIParams {
     expand: string;
     filter: string;
     skip: string;
@@ -58,7 +58,7 @@ export async function fetchItems(Params: APIParams) {
         url.searchParams.append("expand", Params.take);
     }
 
-    return callContentDelivertAPI;
+    return callContentDelivertAPI(url);
 }
 
 
