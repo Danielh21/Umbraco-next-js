@@ -23,7 +23,8 @@ const callContentDelivertAPI = async (url: URL) => {
             headers: {
                 'api-key': config.apiKey,
                 'preview': config.previewEnabled
-            }
+            },
+            cache: 'no-store'
         
         });
 
@@ -47,22 +48,22 @@ export async function fetchItems(Params: APIParams) {
     }
 
     if (Params.filter) {
-        url.searchParams.append("expand", Params.filter);
+        url.searchParams.append("filter", Params.filter);
     }
 
     if (Params.skip) {
-        url.searchParams.append("expand", Params.skip);
+        url.searchParams.append("skip", Params.skip);
     }
     
     if (Params.take) {
-        url.searchParams.append("expand", Params.take);
+        url.searchParams.append("take", Params.take);
     }
 
     return callContentDelivertAPI(url);
 }
 
 
-export async function fetchItem(pathOrId : string, expand : string) {
+export async function fetchItem(pathOrId : string, expand : string, usePreview? : boolean) {
 
     let url = new URL(`${config.domain}/umbraco/delivery/api/v1/content/item/${pathOrId}`);
 
