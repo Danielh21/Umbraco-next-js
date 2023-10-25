@@ -19,7 +19,7 @@ export default async function ContentPage({
 
   let path = params.path.join("/");
   const { isEnabled } = draftMode();
-  var data = await fetchItem(path, "");
+  var data = await fetchItem(path, "", isEnabled);
   var contentProps: ContentProps = data.properties;
 
   return (<>

@@ -27,7 +27,7 @@ namespace Umbraco.Controllers
                 var id = HttpContext.Request.Query["id"];
                 var Page = context.UmbracoContext.Content.GetById(int.Parse(id));
                 var url = Page.Url();
-                return Redirect($"http://localhost:3009{url}?preview=true");
+                return Redirect($"http://localhost:3009/api/draft?slug={url}");
             }
         }
 

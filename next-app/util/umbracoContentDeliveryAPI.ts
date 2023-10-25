@@ -12,7 +12,7 @@ export interface APIParams {
 
 
 
-const callContentDelivertAPI = async (url: URL) => {
+const callContentDelivertAPI = async (url: URL, usePreview: boolean = false) => {
 
     let items;
 
@@ -22,10 +22,10 @@ const callContentDelivertAPI = async (url: URL) => {
             method: 'GET',
             headers: {
                 'api-key': config.apiKey,
-                'preview': config.previewEnabled
+                'preview': String(usePreview)
             },
             cache: 'no-store'
-        
+
         });
 
         items = response.json();
@@ -54,7 +54,7 @@ export async function fetchItems(Params: APIParams) {
     if (Params.skip) {
         url.searchParams.append("skip", Params.skip);
     }
-    
+
     if (Params.take) {
         url.searchParams.append("take", Params.take);
     }
@@ -63,14 +63,18 @@ export async function fetchItems(Params: APIParams) {
 }
 
 
-export async function fetchItem(pathOrId : string, expand : string, usePreview? : boolean) {
+export async function fetchItem(pathOrId: string, expand: string, usePreview: boolean = false) {
 
     let url = new URL(`${config.domain}/umbraco/delivery/api/v1/content/item/${pathOrId}`);
 
-    if(expand) {
+    if (expand) {
         url.searchParams.append("expand", expand);
     }
-
-    return callContentDelivertAPI(url);
+    if (usePreview) {
+        return callContentDelivertAPI(url, true);
+    }
+    else {
+        return callContentDelivertAPI(url);
+    }
 
 }
